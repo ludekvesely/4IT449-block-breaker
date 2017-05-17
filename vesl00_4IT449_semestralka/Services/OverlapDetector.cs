@@ -12,7 +12,12 @@ namespace vesl00_4IT449_semestralka.Services
     {
         public bool BallHitsBoard(Ball Ball, Board Board)
         {
-            return (Ball.BottomBorder() >= Board.TopBorder() && Ball.LeftBorder() >= Board.LeftBorder() && Ball.RightBorder() <= Board.RightBorder());
+            return (Ball.BottomBorder() >= Board.TopBorder() && (Ball.LeftBorder() + 20) >= Board.LeftBorder() && (Ball.RightBorder() - 20) <= Board.RightBorder());
+        }
+
+        public bool BallHitsBrick(Ball Ball, Brick Brick)
+        {
+            return (Ball.BottomBorder() >= Brick.TopBorder() && Ball.TopBorder() <= Brick.BottomBorder() && (Ball.LeftBorder() + 20) >= Brick.LeftBorder() && (Ball.RightBorder() - 20) <= Brick.RightBorder());
         }
     }
 }

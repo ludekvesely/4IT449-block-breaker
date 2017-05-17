@@ -14,12 +14,14 @@ namespace vesl00_4IT449_semestralka.Services
     {
         Font _fontTitle;
         Font _fontSubtitle;
+        Font _fontScore;
         StringFormat _stringFormat;
 
         public MessagesPainter()
         {
             _fontTitle = new Font("Microsoft Sans Serif", 33, FontStyle.Bold);
             _fontSubtitle = new Font("Microsoft Sans Serif", 23);
+            _fontScore = new Font("Microsoft Sans Serif", 20);
             _stringFormat = new StringFormat();
             _stringFormat.Alignment = StringAlignment.Center;
             _stringFormat.LineAlignment = StringAlignment.Center;
@@ -42,6 +44,27 @@ namespace vesl00_4IT449_semestralka.Services
         {
             DrawString(e, "Game Over!", 180);
             DrawString(e, "Enter your name:", 310, false);
+        }
+
+        public void LevelDoneMessage(PaintEventArgs e)
+        {
+            DrawString(e, "Level done!", 180);
+            DrawString(e, "Press space for next level", 310, false);
+        }
+
+        public void CurrentScoreMessage(PaintEventArgs e, int level, int score, int lives)
+        {
+            string text = String.Concat("Level: ", level);
+            Rectangle rect = new Rectangle(0, 0, 900, 50);
+            e.Graphics.DrawString(text, _fontScore, Brushes.LightSteelBlue, rect, _stringFormat);
+
+            string text2 = String.Concat("Score: ", score);
+            Rectangle rect2 = new Rectangle(0, 0, 300, 50);
+            e.Graphics.DrawString(text2, _fontScore, Brushes.LightSteelBlue, rect2, _stringFormat);
+
+            string text3 = String.Concat("Lives: ", lives);
+            Rectangle rect3 = new Rectangle(600, 0, 300, 50);
+            e.Graphics.DrawString(text3, _fontScore, Brushes.LightSteelBlue, rect3, _stringFormat);
         }
 
         private void DrawString(PaintEventArgs e, string text, int top, bool title = true)

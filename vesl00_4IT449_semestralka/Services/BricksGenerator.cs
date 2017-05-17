@@ -10,14 +10,15 @@ namespace vesl00_4IT449_semestralka.Services
     // Generate bricks for game
     class BricksGenerator
     {
-        // Generate bricks for first (entry) level of game
-        public static List<Brick> FirstLevel(int ScreenWidth, int ScreenHeight)
+        public static List<Brick> Generate(int level, int ScreenWidth, int ScreenHeight)
         {
             List<Brick> bricks = new List<Brick>();
             int bricksPerRow = 10;
             int brickWidth = ((ScreenWidth - 3 * Brick.Margin) / bricksPerRow) - Brick.Margin;
             int firstRowY = 50;
-            int rows = 2;
+            int rows = Math.Min(1 + level, 7);
+
+            int row = 1;
 
             for (int y = firstRowY; y < firstRowY + rows * (Brick.Height + Brick.Margin); y += (Brick.Height + Brick.Margin))
             {
@@ -26,13 +27,15 @@ namespace vesl00_4IT449_semestralka.Services
                     bricks.Add(
                         new Brick(
                             x * brickWidth + (x * Brick.Margin) + Brick.Margin,
-                            y,
+                            (row > 2) ? (y + 200) : y,
                             brickWidth,
                             ScreenWidth,
                             ScreenHeight
                         )
                     );
                 }
+
+                row++;
             }
 
             return bricks;

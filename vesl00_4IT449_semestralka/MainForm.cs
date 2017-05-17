@@ -17,7 +17,8 @@ namespace vesl00_4IT449_semestralka
     public partial class MainForm : Form
     {
         // Timer settings
-        private int _refreshInterval = 10;
+        private int _refreshInterval = 16;
+        private int _scoreRefreshInterval = 10000;
 
         // Game elements - ball, board, bricks
         private Ball _ball;
@@ -32,6 +33,10 @@ namespace vesl00_4IT449_semestralka
         private bool _paused = false;
         private bool _gameOver = false;
         private bool _gameStarted = false;
+        private bool _levelDone = false;
+        private int _level = 1;
+        private int _score = 0;
+        private int _lives = 1;
 
         public MainForm()
         {
@@ -40,9 +45,8 @@ namespace vesl00_4IT449_semestralka
             this.MaximumSize = new Size(900, 650);
             this.MinimumSize = new Size(900, 650);
             mainTimer.Interval = _refreshInterval;
-            _ball = new Ball(Width, Height);
-            _board = new Board(Width, Height);
-            _bricks = BricksGenerator.FirstLevel(Width, Height);
+            scoreTimer.Interval = _scoreRefreshInterval;
+            PrepareGame();
             _overlapDetector = new OverlapDetector();
             _paint = new MessagesPainter();
         }
@@ -54,6 +58,7 @@ namespace vesl00_4IT449_semestralka
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             e.Graphics.FillEllipse(_ball.GetBrush(), _ball.GetRectangle());
             e.Graphics.FillRectangle(_board.GetBrush(), _board.GetRectangle());
+            _paint.CurrentScoreMessage(e, _level, _score, _lives);
 
             foreach (Brick brick in _bricks)
             {
@@ -67,12 +72,20 @@ namespace vesl00_4IT449_semestralka
             else if (_paused)
             {
                 mainTimer.Stop();
+                scoreTimer.Stop();
                 _paint.PauseMessage(e);
             }
             else if (_gameOver)
             {
                 mainTimer.Stop();
+                scoreTimer.Stop();
                 _paint.GameOverMessage(e);
+            }
+            else if (_levelDone)
+            {
+                mainTimer.Stop();
+                scoreTimer.Stop();
+                _paint.LevelDoneMessage(e);
             }
         }
 
@@ -81,7 +94,22 @@ namespace vesl00_4IT449_semestralka
         {
             if (_overlapDetector.BallHitsBoard(_ball, _board))
             {
-                _ball.UpdateDirectionAfterBottomHit();
+                _ball.UpdateDirectionAfterHit();
+            }
+
+            for (int i = _bricks.Count - 1; i >= 0; i--)
+            {
+                if (_overlapDetector.BallHitsBrick(_ball, _bricks[i]))
+                {
+                    _ball.UpdateDirectionAfterHit();
+                    _bricks.RemoveAt(i);
+                    _score += 10;
+                }
+            }
+
+            if (_bricks.Count == 0)
+            {
+                _levelDone = true;
             }
 
             try
@@ -90,6 +118,7 @@ namespace vesl00_4IT449_semestralka
             }
             catch (GameOverException)
             {
+                _lives--;
                 _gameOver = true;
             }
             
@@ -112,16 +141,38 @@ namespace vesl00_4IT449_semestralka
                 _paused = false;
                 _gameStarted = true;
                 mainTimer.Start();
+                scoreTimer.Start();
             }
             else if (e.KeyCode == Keys.Space && _paused)
             {
                 _paused = false;
                 mainTimer.Start();
+                scoreTimer.Start();
+            }
+            else if (e.KeyCode == Keys.Space && _levelDone)
+            {
+                _level++;
+                PrepareGame();
+                _levelDone = false;
+                mainTimer.Start();
+                scoreTimer.Start();
             }
             else if (e.KeyCode == Keys.Space)
             {
                 _paused = true;
             }
+        }
+
+        private void PrepareGame()
+        {
+            _ball = new Ball(Width, Height);
+            _board = new Board(Width, Height);
+            _bricks = BricksGenerator.Generate(_level, Width, Height);
+        }
+
+        private void scoreTimer_Tick(object sender, EventArgs e)
+        {
+            _score--;
         }
     }
 }

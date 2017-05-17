@@ -12,7 +12,7 @@ namespace vesl00_4IT449_semestralka.Elements
     {
         private int _width = 100;
         private int _height = 20;
-        private int _moveStepSize = 12;
+        private int _moveStepSize = 14;
 
         public Board(int ScreenWidth, int ScreenHeight)
         {

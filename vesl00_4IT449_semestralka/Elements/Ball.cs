@@ -12,12 +12,12 @@ namespace vesl00_4IT449_semestralka.Elements
     class Ball : BaseElement
     {
         private int _size = 20;
-        private int _moveStepSize = 3;
+        private int _moveStepSize = 4;
         private int _direction = 1;
 
         public Ball(int ScreenWidth, int ScreenHeight)
         {
-            _rectangle = new Rectangle(ScreenWidth / 2 - _size / 2, ScreenHeight - 100, _size, _size);
+            _rectangle = new Rectangle(ScreenWidth / 2 - _size / 2, ScreenHeight - 101, _size, _size);
             _brush = Brushes.LightGray;
             _screenWidth = ScreenWidth;
             _screenHeight = ScreenHeight;
@@ -97,9 +97,17 @@ namespace vesl00_4IT449_semestralka.Elements
             }
         }
 
-        public void UpdateDirectionAfterBottomHit()
+        public void UpdateDirectionAfterHit()
         {
-            if (_direction == 3)
+            if (_direction == 1)
+            {
+                _direction = 4;
+            }
+            else if (_direction == 2)
+            {
+                _direction = 3;
+            }
+            else if (_direction == 3)
             {
                 _direction = 2;
             }

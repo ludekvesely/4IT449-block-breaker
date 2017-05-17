@@ -31,12 +31,18 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.mainTimer = new System.Windows.Forms.Timer(this.components);
+            this.scoreTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // mainTimer
             // 
             this.mainTimer.Interval = 10;
             this.mainTimer.Tick += new System.EventHandler(this.mainTimer_Tick);
+            // 
+            // scoreTimer
+            // 
+            this.scoreTimer.Interval = 10;
+            this.scoreTimer.Tick += new System.EventHandler(this.scoreTimer_Tick);
             // 
             // MainForm
             // 
@@ -60,6 +66,7 @@
         #endregion
 
         private System.Windows.Forms.Timer mainTimer;
+        private System.Windows.Forms.Timer scoreTimer;
     }
 }
 
