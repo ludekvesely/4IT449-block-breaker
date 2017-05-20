@@ -52,6 +52,12 @@ namespace vesl00_4IT449_semestralka.Services
             DrawString(e, "Press space for next level", 310, false);
         }
 
+        public void NewLifeMessage(PaintEventArgs e)
+        {
+            DrawString(e, "Ooops!", 180);
+            DrawString(e, "Press space to continue", 310, false);
+        }
+
         public void CurrentScoreMessage(PaintEventArgs e, int level, int score, int lives)
         {
             string text = String.Concat("Level: ", level);

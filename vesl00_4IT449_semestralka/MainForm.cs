@@ -34,9 +34,10 @@ namespace vesl00_4IT449_semestralka
         private bool _gameOver = false;
         private bool _gameStarted = false;
         private bool _levelDone = false;
+        private bool _newLife = false;
         private int _level = 1;
         private int _score = 0;
-        private int _lives = 1;
+        private int _lives = 5;
 
         public MainForm()
         {
@@ -87,6 +88,12 @@ namespace vesl00_4IT449_semestralka
                 scoreTimer.Stop();
                 _paint.LevelDoneMessage(e);
             }
+            else if (_newLife)
+            {
+                mainTimer.Stop();
+                scoreTimer.Stop();
+                _paint.NewLifeMessage(e);
+            }
         }
 
         // Update game status - move ball, check borders, etc.
@@ -119,7 +126,15 @@ namespace vesl00_4IT449_semestralka
             catch (GameOverException)
             {
                 _lives--;
-                _gameOver = true;
+
+                if (_lives == 0)
+                {
+                    _gameOver = true;
+                }
+                else
+                {
+                    _newLife = true;
+                }
             }
             
             Invalidate();
@@ -154,6 +169,14 @@ namespace vesl00_4IT449_semestralka
                 _level++;
                 PrepareGame();
                 _levelDone = false;
+                mainTimer.Start();
+                scoreTimer.Start();
+            }
+            else if (e.KeyCode == Keys.Space && _newLife)
+            {
+                _ball = new Ball(Width, Height);
+                _board = new Board(Width, Height);
+                _newLife = false;
                 mainTimer.Start();
                 scoreTimer.Start();
             }
