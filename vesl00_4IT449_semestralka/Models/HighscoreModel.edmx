@@ -5,39 +5,32 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="HighscoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'blockbreaker.dbo.highscore' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="highscore">
+        <EntityType Name="Highscore">
           <Key>
-            <PropertyRef Name="nick" />
-            <PropertyRef Name="score" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="nick" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="score" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nick" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Score" Type="int" Nullable="false" />
         </EntityType>
         <EntityContainer Name="HighscoreModelStoreContainer">
-          <EntitySet Name="highscore" EntityType="Self.highscore" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [highscore].[nick] AS [nick], 
-    [highscore].[score] AS [score]
-    FROM [dbo].[highscore] AS [highscore]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="Highscore" EntityType="Self.Highscore" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="HighscoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="highscore">
+        <EntityType Name="Highscore">
           <Key>
-            <PropertyRef Name="nick" />
-            <PropertyRef Name="score" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="nick" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="score" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nick" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Score" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityContainer Name="HighscoreEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="highscore" EntityType="Self.highscore" />
+          <EntitySet Name="Highscores" EntityType="Self.Highscore" />
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -45,11 +38,12 @@ warning 6002: The table/view 'blockbreaker.dbo.highscore' does not have a primar
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="HighscoreModelStoreContainer" CdmEntityContainer="HighscoreEntities">
-          <EntitySetMapping Name="highscore">
-            <EntityTypeMapping TypeName="HighscoreModel.highscore">
-              <MappingFragment StoreEntitySet="highscore">
-                <ScalarProperty Name="nick" ColumnName="nick" />
-                <ScalarProperty Name="score" ColumnName="score" />
+          <EntitySetMapping Name="Highscores">
+            <EntityTypeMapping TypeName="HighscoreModel.Highscore">
+              <MappingFragment StoreEntitySet="Highscore">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nick" ColumnName="Nick" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -67,7 +61,7 @@ warning 6002: The table/view 'blockbreaker.dbo.highscore' does not have a primar
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />

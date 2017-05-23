@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using vesl00_4IT449_semestralka.DataObjects;
 
 namespace vesl00_4IT449_semestralka.Services
 {
@@ -43,7 +44,7 @@ namespace vesl00_4IT449_semestralka.Services
         public void GameOverMessage(PaintEventArgs e)
         {
             DrawString(e, "Game Over!", 180);
-            DrawString(e, "Enter your name:", 310, false);
+            DrawString(e, "Enter your name and press ENTER:                                .", 310, false);
         }
 
         public void LevelDoneMessage(PaintEventArgs e)
@@ -71,6 +72,11 @@ namespace vesl00_4IT449_semestralka.Services
             string text3 = String.Concat("Lives: ", lives);
             Rectangle rect3 = new Rectangle(600, 0, 300, 50);
             e.Graphics.DrawString(text3, _fontScore, Brushes.LightSteelBlue, rect3, _stringFormat);
+        }
+
+        public void Highscores(PaintEventArgs e, List<HighscoreDO> highscores)
+        {
+            DrawString(e, "Highscore", 5);
         }
 
         private void DrawString(PaintEventArgs e, string text, int top, bool title = true)

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using vesl00_4IT449_semestralka.DataObjects;
 using vesl00_4IT449_semestralka.Elements;
 using vesl00_4IT449_semestralka.Exceptions;
 using vesl00_4IT449_semestralka.Services;
@@ -35,10 +36,18 @@ namespace vesl00_4IT449_semestralka
         private bool _gameStarted = false;
         private bool _levelDone = false;
         private bool _newLife = false;
-        private int _level = 1;
-        private int _score = 0;
-        private int _lives = 5;
+        private bool _blockSave = false;
+        private bool _showHighscore = false;
+        private int _level;
+        private int _score;
+        private int _lives;
 
+        // Default config
+        private const int _defaultLevel = 1;
+        private const int _defaultScore = 0;
+        private const int _defaultLives = 1; // TODO
+
+        // Init components and services
         public MainForm()
         {
             InitializeComponent();
@@ -47,23 +56,27 @@ namespace vesl00_4IT449_semestralka
             this.MinimumSize = new Size(900, 650);
             mainTimer.Interval = _refreshInterval;
             scoreTimer.Interval = _scoreRefreshInterval;
-            PrepareGame();
             _overlapDetector = new OverlapDetector();
             _paint = new MessagesPainter();
+            PrepareGame();
         }
 
-        // Draw current status  into main window
+        // Draw objects into main window after form invalidation
         private void MainForm_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            e.Graphics.FillEllipse(_ball.GetBrush(), _ball.GetRectangle());
-            e.Graphics.FillRectangle(_board.GetBrush(), _board.GetRectangle());
-            _paint.CurrentScoreMessage(e, _level, _score, _lives);
 
-            foreach (Brick brick in _bricks)
+            if (!_showHighscore)
             {
-                e.Graphics.FillRectangle(brick.GetBrush(), brick.GetRectangle());
+                e.Graphics.FillEllipse(_ball.GetBrush(), _ball.GetRectangle());
+                e.Graphics.FillRectangle(_board.GetBrush(), _board.GetRectangle());
+                _paint.CurrentScoreMessage(e, _level, _score, _lives);
+
+                foreach (Brick brick in _bricks)
+                {
+                    e.Graphics.FillRectangle(brick.GetBrush(), brick.GetRectangle());
+                }
             }
 
             if (!_gameStarted)
@@ -81,6 +94,24 @@ namespace vesl00_4IT449_semestralka
                 mainTimer.Stop();
                 scoreTimer.Stop();
                 _paint.GameOverMessage(e);
+                nickInput.Show();
+                nickInput.Focus();
+            }
+            else if (_showHighscore)
+            {
+                savingLabel.Hide();
+                _paint.Highscores(e, HighscoreDO.GetHighscores());
+                nickInput.Hide();
+                highscoreList.Rows.Clear();
+
+                foreach (HighscoreDO highscore in HighscoreDO.GetHighscores())
+                {
+                    highscoreList.Rows.Add(highscore.Nick, highscore.Score.ToString());
+                }
+
+                highscoreList.Show();
+                buttonPlayAgain.Show();
+                buttonExit.Show();
             }
             else if (_levelDone)
             {
@@ -96,7 +127,7 @@ namespace vesl00_4IT449_semestralka
             }
         }
 
-        // Update game status - move ball, check borders, etc.
+        // Update game status - move ball, check borders, etc. after timer tick
         private void mainTimer_Tick(object sender, EventArgs e)
         {
             if (_overlapDetector.BallHitsBoard(_ball, _board))
@@ -140,7 +171,7 @@ namespace vesl00_4IT449_semestralka
             Invalidate();
         }
 
-        // Key pressed - move board or pause/resume game
+        // Move board or pause/resume game after key pressed
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Right && !_paused)
@@ -186,16 +217,83 @@ namespace vesl00_4IT449_semestralka
             }
         }
 
-        private void PrepareGame()
-        {
-            _ball = new Ball(Width, Height);
-            _board = new Board(Width, Height);
-            _bricks = BricksGenerator.Generate(_level, Width, Height);
-        }
-
+        // Update score after second timer tick
         private void scoreTimer_Tick(object sender, EventArgs e)
         {
             _score--;
+        }
+
+        // Save highscore after pressing enter key
+        private void nickInput_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter && !_blockSave && nickInput.Text != "")
+            {
+                savingLabel.Show();
+                Task.Run((Action)StoreHighscore);
+            }
+        }
+
+        private void StoreHighscore()
+        {
+            _blockSave = true;
+
+            try
+            {
+                HighscoreDO.Store(nickInput.Text, _score);
+                _showHighscore = true;
+                _gameOver = false;
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message, "Error: Unable to store your score", MessageBoxButtons.OK);
+            }
+
+            Invalidate();
+            _blockSave = false;
+        }
+
+        // Exit game, close main window
+        private void buttonExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        // Start new game
+        private void buttonPlayAgain_Click(object sender, EventArgs e)
+        {
+            PrepareGame();
+        }
+
+        // Setup on start - set default values, create new playground
+        private void PrepareGame()
+        {
+            _level = _defaultLevel;
+            _lives = _defaultLives;
+            _score = _defaultScore;
+            _paused = false;
+            _gameOver = false;
+            _gameStarted = false;
+            _levelDone = false;
+            _newLife = false;
+            _blockSave = false;
+            _showHighscore = false;
+            _ball = new Ball(Width, Height);
+            _board = new Board(Width, Height);
+            _bricks = BricksGenerator.Generate(_level, Width, Height);
+            nickInput.Location = new Point(575, 365);
+            nickInput.Hide();
+            highscoreList.Width = 600;
+            highscoreList.Height = 350;
+            highscoreList.Location = new Point(200, 140);
+            highscoreList.Hide();
+            buttonPlayAgain.Location = new Point(180, 500);
+            buttonPlayAgain.Hide();
+            buttonExit.Location = new Point(550, 500);
+            buttonExit.Hide();
+            savingLabel.Location = new Point(395, 430);
+            savingLabel.Hide();
+            this.Focus();
+            Invalidate();
         }
     }
 }

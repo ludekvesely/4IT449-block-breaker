@@ -57,7 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataObjects\Highscore.cs" />
+    <Compile Include="DataObjects\HighscoreDO.cs" />
     <Compile Include="Elements\Ball.cs" />
     <Compile Include="Elements\BaseElement.cs" />
     <Compile Include="Elements\Brick.cs" />
@@ -69,7 +69,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\highscore.cs">
+    <Compile Include="Models\Highscore.cs">
       <DependentUpon>HighscoreModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HighscoreModel.Context.cs">

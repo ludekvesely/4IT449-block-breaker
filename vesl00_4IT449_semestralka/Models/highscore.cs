@@ -12,9 +12,10 @@ namespace vesl00_4IT449_semestralka.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class highscore
+    public partial class Highscore
     {
-        public string nick { get; set; }
-        public int score { get; set; }
+        public int ID { get; set; }
+        public string Nick { get; set; }
+        public int Score { get; set; }
     }
 }

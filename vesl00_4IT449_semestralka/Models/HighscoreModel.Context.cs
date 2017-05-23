@@ -25,6 +25,6 @@ namespace vesl00_4IT449_semestralka.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<highscore> highscore { get; set; }
+        public virtual DbSet<Highscore> Highscores { get; set; }
     }
 }
