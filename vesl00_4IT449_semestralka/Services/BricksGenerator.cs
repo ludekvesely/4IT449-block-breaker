@@ -24,13 +24,19 @@ namespace vesl00_4IT449_semestralka.Services
             {
                 for (int x = 0; x < bricksPerRow; x++)
                 {
+                    if ((bricks.Count() % 6) == 0)
+                    {
+
+                    }
+
                     bricks.Add(
                         new Brick(
                             x * brickWidth + (x * Brick.Margin) + Brick.Margin,
                             (row > 2) ? (y + 200) : y,
                             brickWidth,
                             ScreenWidth,
-                            ScreenHeight
+                            ScreenHeight,
+                            ((bricks.Count() % 15) == 2) ? 2 : 1
                         )
                     );
                 }

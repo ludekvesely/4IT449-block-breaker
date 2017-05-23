@@ -140,8 +140,13 @@ namespace vesl00_4IT449_semestralka
                 if (_overlapDetector.BallHitsBrick(_ball, _bricks[i]))
                 {
                     _ball.UpdateDirectionAfterHit();
-                    _bricks.RemoveAt(i);
+                    _bricks[i].Hit();
                     _score += 10;
+
+                    if (_bricks[i].ShouldBeRemoved())
+                    {
+                        _bricks.RemoveAt(i);
+                    }
                 }
             }
 
