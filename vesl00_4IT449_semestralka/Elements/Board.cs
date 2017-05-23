@@ -22,6 +22,7 @@ namespace vesl00_4IT449_semestralka.Elements
             _screenHeight = ScreenHeight;
         }
 
+        // Move board to left (check border)
         public void MoveLeft()
         {
             if (_rectangle.X > 0)
@@ -30,6 +31,7 @@ namespace vesl00_4IT449_semestralka.Elements
             }
         }
 
+        // Move board to right (check border)
         public void MoveRight()
         {
             if ((_rectangle.X + _rectangle.Width + _height) < _screenWidth)
@@ -38,14 +40,16 @@ namespace vesl00_4IT449_semestralka.Elements
             }
         }
 
-        public void Wider()
-        {
-            _rectangle.Width += 50;
-        }
-
+        // Set default width of board
         public void DefaultWidth()
         {
             _rectangle.Width = _width;
+        }
+
+        // Make board wider
+        public void Wider()
+        {
+            _rectangle.Width += 50;
         }
     }
 }

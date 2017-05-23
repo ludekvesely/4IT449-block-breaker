@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace vesl00_4IT449_semestralka.Exceptions
 {
-    // Ball hits bottom border -> player loses
+    // Ball hits bottom border -> player loses life
     class GameOverException : Exception
     {
     }

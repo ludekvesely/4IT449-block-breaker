@@ -10,11 +10,13 @@ using vesl00_4IT449_semestralka.Models;
 
 namespace vesl00_4IT449_semestralka.DataObjects
 {
+    // Hoghscore - nicks and points pairs
     class HighscoreDO
     {
         public int Score { get; set; }
         public string Nick { get; set; }
 
+        // Get top scores
         public static List<HighscoreDO> GetHighscores()
         {
             using (HighscoreEntities context =
@@ -32,6 +34,7 @@ namespace vesl00_4IT449_semestralka.DataObjects
             }
         }
 
+        // Add new score
         public static void Store(string Nick, int Score)
         {
             using (HighscoreEntities context =

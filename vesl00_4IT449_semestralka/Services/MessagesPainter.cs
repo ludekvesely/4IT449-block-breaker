@@ -28,6 +28,7 @@ namespace vesl00_4IT449_semestralka.Services
             _stringFormat.LineAlignment = StringAlignment.Center;
         }
 
+        // Paint welcome screen
         public void WelcomeMessage(PaintEventArgs e)
         {
             DrawString(e, "Welcome to BLOCK BREAKER!", 140);
@@ -35,30 +36,35 @@ namespace vesl00_4IT449_semestralka.Services
             DrawString(e, "Press SPACE to start game", 330, false);
         }
 
+        // Paint paused game
         public void PauseMessage(PaintEventArgs e)
         {
             DrawString(e, "Paused", 180);
             DrawString(e, "Press space to continue", 310, false);
         }
 
+        // Paint game over
         public void GameOverMessage(PaintEventArgs e)
         {
             DrawString(e, "Game Over!", 180);
             DrawString(e, "Enter your name and press ENTER:                                .", 310, false);
         }
 
+        // Paint level done
         public void LevelDoneMessage(PaintEventArgs e)
         {
             DrawString(e, "Level done!", 180);
             DrawString(e, "Press space for next level", 310, false);
         }
 
+        // Paint ball lost
         public void NewLifeMessage(PaintEventArgs e)
         {
             DrawString(e, "Ooops!", 180);
             DrawString(e, "Press space to continue", 310, false);
         }
 
+        // Paint current score to top of the window
         public void CurrentScoreMessage(PaintEventArgs e, int level, int score, int lives)
         {
             string text = String.Concat("Level: ", level);
@@ -74,16 +80,19 @@ namespace vesl00_4IT449_semestralka.Services
             e.Graphics.DrawString(text3, _fontScore, Brushes.LightSteelBlue, rect3, _stringFormat);
         }
 
+        // Paint highscore
         public void Highscores(PaintEventArgs e, List<HighscoreDO> highscores)
         {
             DrawString(e, "Highscore", 5);
         }
 
+        // Paint earned bonus
         public void BonusMessage(PaintEventArgs e, string Message)
         {
             DrawString(e, Message, 250, false);
         }
 
+        // Paint string to form
         private void DrawString(PaintEventArgs e, string text, int top, bool title = true)
         {
             Rectangle rect = new Rectangle(0, top, 900, 150);

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace vesl00_4IT449_semestralka.Elements
 {
+    // Brick which should be destroyed
     class Brick : BaseElement
     {
         public const int Height = 20;
@@ -71,6 +72,7 @@ namespace vesl00_4IT449_semestralka.Elements
             }
         }
 
+        // Brick was hitten by ball
         public void Hit()
         {
             if (_lives == 2)
@@ -81,21 +83,25 @@ namespace vesl00_4IT449_semestralka.Elements
             _lives--;
         }
 
+        // Should be this brick removed?
         public bool ShouldBeRemoved()
         {
             return (_lives < 1);
         }
 
+        // Makes this brick ball faster?
         public bool MakesBallFaster()
         {
             return _fasterBall;
         }
 
+        // Makes this brick board wider?
         public bool MakesBoardWider()
         {
             return _widerBoard;
         }
 
+        // Get lives change after brick hit
         public int GetLivesChange()
         {
             if (_liveUp)
@@ -110,6 +116,7 @@ namespace vesl00_4IT449_semestralka.Elements
             return 0;
         }
 
+        // Adds this brick bonus points?
         public bool AddsBonus()
         {
             return _bonus;

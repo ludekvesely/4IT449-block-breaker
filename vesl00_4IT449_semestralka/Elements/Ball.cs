@@ -26,16 +26,19 @@ namespace vesl00_4IT449_semestralka.Elements
             NormalSpeed();
         }
 
-        public void FasterSpeed()
-        {
-            _moveStepSize = _fastStepSize;
-        }
-
+        // Set defauld moving speed
         public void NormalSpeed()
         {
             _moveStepSize = _defaultStepSize;
         }
 
+        // Set faster moving speed
+        public void FasterSpeed()
+        {
+            _moveStepSize = _fastStepSize;
+        }
+
+        // Move ball
         public void Move()
         {
             if (_direction == 1)
@@ -62,6 +65,7 @@ namespace vesl00_4IT449_semestralka.Elements
             UpdateDirection();
         }
 
+        // Update direction of ball
         private void UpdateDirection()
         {
             if (_direction == 1)
@@ -110,6 +114,7 @@ namespace vesl00_4IT449_semestralka.Elements
             }
         }
 
+        // Move ball to another direction after wall hit
         public void UpdateDirectionAfterHit()
         {
             if (_direction == 1)
