@@ -149,6 +149,11 @@ namespace vesl00_4IT449_semestralka
                         ballTimer.Start();
                     }
 
+                    if (_bricks[i].MakesBoardWider())
+                    {
+                        _board.Wider();
+                    }
+
                     if (_bricks[i].ShouldBeRemoved())
                     {
                         _bricks.RemoveAt(i);

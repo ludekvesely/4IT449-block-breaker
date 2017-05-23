@@ -10,8 +10,8 @@ namespace vesl00_4IT449_semestralka.Elements
     // Board controlled by player
     class Board : BaseElement
     {
-        private int _width = 100;
-        private int _height = 20;
+        private const int _width = 100;
+        private const int _height = 20;
         private int _moveStepSize = 14;
 
         public Board(int ScreenWidth, int ScreenHeight)
@@ -32,10 +32,20 @@ namespace vesl00_4IT449_semestralka.Elements
 
         public void MoveRight()
         {
-            if ((_rectangle.X + _width + _height) < _screenWidth)
+            if ((_rectangle.X + _rectangle.Width + _height) < _screenWidth)
             {
                 _rectangle.X += _moveStepSize;
             }
+        }
+
+        public void Wider()
+        {
+            _rectangle.Width += 50;
+        }
+
+        public void DefaultWidth()
+        {
+            _rectangle.Width = _width;
         }
     }
 }

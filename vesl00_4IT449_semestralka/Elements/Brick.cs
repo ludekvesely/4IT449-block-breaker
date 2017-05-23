@@ -13,14 +13,16 @@ namespace vesl00_4IT449_semestralka.Elements
         public const int Margin = 5;
         private int _lives;
         private bool _fasterBall;
+        private bool _widerBoard;
 
-        public Brick(int X, int Y, int Width, int ScreenWidth, int ScreenHeight, int Lives = 1, bool Faster = false)
+        public Brick(int X, int Y, int Width, int ScreenWidth, int ScreenHeight, int Lives = 1, bool Faster = false, bool Wider = false)
         {
             _rectangle = new Rectangle(X, Y, Width, Height);
             _screenWidth = ScreenWidth;
             _screenHeight = ScreenHeight;
             _lives = Lives;
             _fasterBall = Faster;
+            _widerBoard = Wider;
 
             if (Lives > 1)
             {
@@ -29,6 +31,10 @@ namespace vesl00_4IT449_semestralka.Elements
             else if (Faster)
             {
                 _brush = Brushes.GreenYellow;
+            }
+            else if (Wider)
+            {
+                _brush = Brushes.PeachPuff;
             }
             else
             {
@@ -54,6 +60,11 @@ namespace vesl00_4IT449_semestralka.Elements
         public bool MakesBallFaster()
         {
             return _fasterBall;
+        }
+
+        public bool MakesBoardWider()
+        {
+            return _widerBoard;
         }
     }
 }

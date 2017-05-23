@@ -24,11 +24,6 @@ namespace vesl00_4IT449_semestralka.Services
             {
                 for (int x = 0; x < bricksPerRow; x++)
                 {
-                    if ((bricks.Count() % 6) == 0)
-                    {
-
-                    }
-
                     bricks.Add(
                         new Brick(
                             x * brickWidth + (x * Brick.Margin) + Brick.Margin,
@@ -36,8 +31,9 @@ namespace vesl00_4IT449_semestralka.Services
                             brickWidth,
                             ScreenWidth,
                             ScreenHeight,
-                            ((bricks.Count() % 15) == 2) ? 2 : 1,
-                            ((bricks.Count() % 30) == 8) ? true : false
+                            (((bricks.Count() + level - 1) % 15) == 2) ? 2 : 1,
+                            (((bricks.Count() + level - 1) % 30) == 8) ? true : false,
+                            (((bricks.Count() + level - 1) % 30) == 14) ? true : false
                         )
                     );
                 }
