@@ -11,30 +11,49 @@ namespace vesl00_4IT449_semestralka.Elements
     {
         public const int Height = 20;
         public const int Margin = 5;
-        protected int _lives;
+        private int _lives;
+        private bool _fasterBall;
 
-        public Brick(int X, int Y, int Width, int ScreenWidth, int ScreenHeight, int Lives = 1)
+        public Brick(int X, int Y, int Width, int ScreenWidth, int ScreenHeight, int Lives = 1, bool Faster = false)
         {
             _rectangle = new Rectangle(X, Y, Width, Height);
-            _brush = (Lives > 1) ? Brushes.Maroon : Brushes.Firebrick;
             _screenWidth = ScreenWidth;
             _screenHeight = ScreenHeight;
             _lives = Lives;
-        }
+            _fasterBall = Faster;
 
-        public void Hit()
-        {
-            _lives--;
-            
-            if (_lives <= 1)
+            if (Lives > 1)
+            {
+                _brush = Brushes.Maroon;
+            }
+            else if (Faster)
+            {
+                _brush = Brushes.GreenYellow;
+            }
+            else
             {
                 _brush = Brushes.Firebrick;
             }
         }
 
+        public void Hit()
+        {
+            if (_lives == 2)
+            {
+                _brush = Brushes.Firebrick;
+            }
+
+            _lives--;
+        }
+
         public bool ShouldBeRemoved()
         {
             return (_lives < 1);
+        }
+
+        public bool MakesBallFaster()
+        {
+            return _fasterBall;
         }
     }
 }

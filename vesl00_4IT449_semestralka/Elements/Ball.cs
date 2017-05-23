@@ -11,9 +11,11 @@ namespace vesl00_4IT449_semestralka.Elements
     // Ball moving around main window
     class Ball : BaseElement
     {
-        private int _size = 20;
-        private int _moveStepSize = 4;
+        private const int _defaultStepSize = 4;
+        private const int _fastStepSize = 7;
+        private int _moveStepSize;
         private int _direction = 1;
+        private int _size = 20;
 
         public Ball(int ScreenWidth, int ScreenHeight)
         {
@@ -21,6 +23,17 @@ namespace vesl00_4IT449_semestralka.Elements
             _brush = Brushes.LightGray;
             _screenWidth = ScreenWidth;
             _screenHeight = ScreenHeight;
+            NormalSpeed();
+        }
+
+        public void FasterSpeed()
+        {
+            _moveStepSize = _fastStepSize;
+        }
+
+        public void NormalSpeed()
+        {
+            _moveStepSize = _defaultStepSize;
         }
 
         public void Move()

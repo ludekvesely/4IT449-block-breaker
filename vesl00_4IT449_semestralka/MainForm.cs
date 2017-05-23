@@ -143,6 +143,12 @@ namespace vesl00_4IT449_semestralka
                     _bricks[i].Hit();
                     _score += 10;
 
+                    if (_bricks[i].MakesBallFaster())
+                    {
+                        _ball.FasterSpeed();
+                        ballTimer.Start();
+                    }
+
                     if (_bricks[i].ShouldBeRemoved())
                     {
                         _bricks.RemoveAt(i);
@@ -162,6 +168,7 @@ namespace vesl00_4IT449_semestralka
             catch (GameOverException)
             {
                 _lives--;
+                _ball.NormalSpeed();
 
                 if (_lives == 0)
                 {
@@ -237,6 +244,7 @@ namespace vesl00_4IT449_semestralka
             }
         }
 
+        // Store highscore to DB
         private void StoreHighscore()
         {
             _blockSave = true;
@@ -300,8 +308,15 @@ namespace vesl00_4IT449_semestralka
             buttonExit.Hide();
             savingLabel.Location = new Point(395, 430);
             savingLabel.Hide();
+            ballTimer.Stop();
             this.Focus();
             Invalidate();
+        }
+
+        // Return game to normal state
+        private void ballTimer_Tick(object sender, EventArgs e)
+        {
+            _ball.NormalSpeed();
         }
     }
 }
