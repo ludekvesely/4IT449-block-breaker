@@ -45,7 +45,7 @@ namespace vesl00_4IT449_semestralka
         // Default config
         private const int _defaultLevel = 1;
         private const int _defaultScore = 0;
-        private const int _defaultLives = 1; // TODO
+        private const int _defaultLives = 5;
 
         // Init components and services
         public MainForm()
