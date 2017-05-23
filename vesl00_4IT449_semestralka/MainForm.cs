@@ -41,6 +41,7 @@ namespace vesl00_4IT449_semestralka
         private int _level;
         private int _score;
         private int _lives;
+        private string _bonusMessage = "";
 
         // Default config
         private const int _defaultLevel = 1;
@@ -76,6 +77,11 @@ namespace vesl00_4IT449_semestralka
                 foreach (Brick brick in _bricks)
                 {
                     e.Graphics.FillRectangle(brick.GetBrush(), brick.GetRectangle());
+                }
+
+                if (_bonusMessage != "")
+                {
+                    _paint.BonusMessage(e, _bonusMessage);
                 }
             }
 
@@ -143,6 +149,22 @@ namespace vesl00_4IT449_semestralka
                     _bricks[i].Hit();
                     _score += 10;
 
+                    if (_bricks[i].GetLivesChange() > 0)
+                    {
+                        _lives++;
+                        WriteBonusMessage("You won one life!");
+                    }
+                    else if (_bricks[i].GetLivesChange() < 0)
+                    {
+                        _lives--;
+                        WriteBonusMessage("You lost one life!");
+                        
+                        if (_lives == 0)
+                        {
+                            _gameOver = true;
+                        }
+                    }
+
                     if (_bricks[i].MakesBallFaster())
                     {
                         _ball.FasterSpeed();
@@ -152,6 +174,12 @@ namespace vesl00_4IT449_semestralka
                     if (_bricks[i].MakesBoardWider())
                     {
                         _board.Wider();
+                    }
+
+                    if (_bricks[i].AddsBonus())
+                    {
+                        _score += 30;
+                        WriteBonusMessage("You won 30 bonus points!");
                     }
 
                     if (_bricks[i].ShouldBeRemoved())
@@ -281,6 +309,27 @@ namespace vesl00_4IT449_semestralka
             PrepareGame();
         }
 
+        // Return game to normal state
+        private void ballTimer_Tick(object sender, EventArgs e)
+        {
+            _ball.NormalSpeed();
+        }
+
+        // Hide message
+        private void bonusMessageTimer_Tick(object sender, EventArgs e)
+        {
+            _bonusMessage = "";
+            bonusMessageTimer.Stop();
+        }
+
+        // Write info for player
+        private void WriteBonusMessage(string Message)
+        {
+            _bonusMessage = Message;
+            bonusMessageTimer.Stop();
+            bonusMessageTimer.Start();
+        }
+
         // Setup on start - set default values, create new playground
         private void PrepareGame(bool Restart = true)
         {
@@ -290,7 +339,7 @@ namespace vesl00_4IT449_semestralka
                 _lives = _defaultLives;
                 _score = _defaultScore;
             }
-            
+
             _paused = false;
             _gameOver = false;
             _gameStarted = !Restart;
@@ -314,14 +363,9 @@ namespace vesl00_4IT449_semestralka
             savingLabel.Location = new Point(395, 430);
             savingLabel.Hide();
             ballTimer.Stop();
+            bonusMessageTimer.Stop();
             this.Focus();
             Invalidate();
-        }
-
-        // Return game to normal state
-        private void ballTimer_Tick(object sender, EventArgs e)
-        {
-            _ball.NormalSpeed();
         }
     }
 }

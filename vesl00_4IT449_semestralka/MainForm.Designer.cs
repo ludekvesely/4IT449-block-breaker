@@ -41,6 +41,7 @@
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.savingLabel = new System.Windows.Forms.Label();
             this.ballTimer = new System.Windows.Forms.Timer(this.components);
+            this.bonusMessageTimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.highscoreList)).BeginInit();
             this.SuspendLayout();
             // 
@@ -162,6 +163,11 @@
             this.ballTimer.Interval = 8000;
             this.ballTimer.Tick += new System.EventHandler(this.ballTimer_Tick);
             // 
+            // bonusMessageTimer
+            // 
+            this.bonusMessageTimer.Interval = 3000;
+            this.bonusMessageTimer.Tick += new System.EventHandler(this.bonusMessageTimer_Tick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
@@ -200,6 +206,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.Label savingLabel;
         private System.Windows.Forms.Timer ballTimer;
+        private System.Windows.Forms.Timer bonusMessageTimer;
     }
 }
 

@@ -79,6 +79,11 @@ namespace vesl00_4IT449_semestralka.Services
             DrawString(e, "Highscore", 5);
         }
 
+        public void BonusMessage(PaintEventArgs e, string Message)
+        {
+            DrawString(e, Message, 250, false);
+        }
+
         private void DrawString(PaintEventArgs e, string text, int top, bool title = true)
         {
             Rectangle rect = new Rectangle(0, top, 900, 150);

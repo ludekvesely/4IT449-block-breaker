@@ -32,8 +32,11 @@ namespace vesl00_4IT449_semestralka.Services
                             ScreenWidth,
                             ScreenHeight,
                             (((bricks.Count() + level - 1) % 15) == 2) ? 2 : 1,
-                            (((bricks.Count() + level - 1) % 30) == 8) ? true : false,
-                            (((bricks.Count() + level - 1) % 30) == 14) ? true : false
+                            (((bricks.Count() + level - 1) % 30) == 15) ? true : false,
+                            (((bricks.Count() + level - 1) % 30) == 12) ? true : false,
+                            (((bricks.Count() + level - 1) % 40) == 9) ? true : false,
+                            (((bricks.Count() + level - 1) % 30) == 29) ? true : false,
+                            (((bricks.Count() + level - 1) % 20) == 11) ? true : false
                         )
                     );
                 }
