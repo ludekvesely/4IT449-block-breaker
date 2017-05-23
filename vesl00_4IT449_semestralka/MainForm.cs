@@ -198,8 +198,7 @@ namespace vesl00_4IT449_semestralka
             else if (e.KeyCode == Keys.Space && _levelDone)
             {
                 _level++;
-                PrepareGame();
-                _levelDone = false;
+                PrepareGame(false);
                 mainTimer.Start();
                 scoreTimer.Start();
             }
@@ -265,14 +264,18 @@ namespace vesl00_4IT449_semestralka
         }
 
         // Setup on start - set default values, create new playground
-        private void PrepareGame()
+        private void PrepareGame(bool Restart = true)
         {
-            _level = _defaultLevel;
-            _lives = _defaultLives;
-            _score = _defaultScore;
+            if (Restart)
+            {
+                _level = _defaultLevel;
+                _lives = _defaultLives;
+                _score = _defaultScore;
+            }
+            
             _paused = false;
             _gameOver = false;
-            _gameStarted = false;
+            _gameStarted = !Restart;
             _levelDone = false;
             _newLife = false;
             _blockSave = false;
@@ -284,7 +287,7 @@ namespace vesl00_4IT449_semestralka
             nickInput.Hide();
             highscoreList.Width = 600;
             highscoreList.Height = 350;
-            highscoreList.Location = new Point(200, 140);
+            highscoreList.Location = new Point(190, 140);
             highscoreList.Hide();
             buttonPlayAgain.Location = new Point(180, 500);
             buttonPlayAgain.Hide();
